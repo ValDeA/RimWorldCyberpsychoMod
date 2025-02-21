@@ -72,7 +72,7 @@
     <Compile Include="HumanityUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RimWorldCyberpsychoMod.cs" />
-    <Compile Include="StatWorker_Humunaty.cs" />
+    <Compile Include="StatWorker_Humanity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
