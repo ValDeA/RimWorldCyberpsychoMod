@@ -1,9 +1,7 @@
-﻿using HarmonyLib;
-using Verse;
+﻿using System.Reflection;
+using HarmonyLib;
 using RimWorld;
-using System.Linq;
-using System.Reflection;
-using System;
+using Verse;
 
 namespace RimWorldCyberPsychoMod
 {
@@ -18,17 +16,56 @@ namespace RimWorldCyberPsychoMod
         }
     }
 
-    [HarmonyPatch(typeof(PawnGenerator), "GenerateNewPawn")]
+    [HarmonyPatch(typeof(PawnGenerator))]
+    [HarmonyPatch("GenerateNewPawn")]
     public static class Patch_PawnGenerator_GenerateNewPawn
     {
-        public static void Postfix(Pawn __result)
+        [HarmonyPostfix]
+        public static void Postfix(ref Pawn __result)
         {
-            if (__result != null && !__result.GetComps<HumanityComponent>().Any())
+            if (__result != null)
             {
-                var humanityComp = new HumanityComponent();
-                __result.AllComps.Add(humanityComp);
-                Log.Message($"Added HumanityComponent to {__result.LabelCap}");
+                var humanityComp = __result.GetComp<HumanityComponent>();
+                if (humanityComp == null)
+                {
+                    humanityComp = new HumanityComponent();
+                    __result.AllComps.Add(humanityComp);
+                }
+                Log.Message($"Generated new pawn {__result.LabelCap} with humanity {humanityComp.humanity}");
             }
+        }
+    }
+
+    [DefOf]
+    public static class HumanityStatDefOf
+    {
+        public static StatDef Humanity;
+
+        static HumanityStatDefOf()
+        {
+            DefOfHelper.EnsureInitializedInCtor(typeof(HumanityStatDefOf));
+        }
+    }
+
+    [StaticConstructorOnStartup]
+    public static class HumanityStatDefInitializer
+    {
+        static HumanityStatDefInitializer()
+        {
+            HumanityStatDefOf.Humanity = new StatDef
+            {
+                defName = "Humanity",
+                label = "Humanity",
+                description = "Measure of a pawn's humanity. Not visible in-game.",
+                category = StatCategoryDefOf.BasicsPawn,
+                defaultBaseValue = 50f,
+                minValue = 0f,
+                maxValue = 200f,
+                showIfUndefined = false,
+                toStringStyle = ToStringStyle.Integer
+            };
+
+            DefDatabase<StatDef>.Add(HumanityStatDefOf.Humanity);
         }
     }
 }
