@@ -2,6 +2,7 @@
 using Verse;
 using RimWorld;
 using System.Linq;
+using System.Reflection;
 
 namespace RimWorldCyberPsychoMod
 {
@@ -10,8 +11,8 @@ namespace RimWorldCyberPsychoMod
     {
         static CyberPsychoMod()
         {
-            var harmony = new Harmony("com.yourname.rimworldcyberpsychomod");
-            harmony.PatchAll();
+            var harmony = new Harmony("com.valdeA.rimworldcyberpsychomod");
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
     }
 

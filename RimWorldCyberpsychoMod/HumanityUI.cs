@@ -1,5 +1,6 @@
 ﻿using HarmonyLib;
 using RimWorld;
+using System;
 using System.Linq;
 using UnityEngine;
 using Verse;
@@ -9,7 +10,7 @@ namespace RimWorldCyberPsychoMod
     [HarmonyPatch(typeof(CharacterCardUtility), "DrawCharacterCard")]
     public static class Patch_CharacterCardUtility_DrawCharacterCard
     {
-        public static void Postfix(Rect rect, Pawn pawn, bool showInventory)
+        public static void Postfix(Rect rect, Pawn pawn, Action randomizeCallback, Rect creationRect, bool showName)
         {
             if (pawn == null || !pawn.GetComps<HumanityComponent>().Any())
                 return;
@@ -41,6 +42,7 @@ namespace RimWorldCyberPsychoMod
     }
 
     // 인간성 바 텍스처를 위한 정적 클래스
+    [StaticConstructorOnStartup]
     public static class BarTextures
     {
         public static readonly Texture2D HumanityBarTex = SolidColorMaterials.NewSolidColorTexture(new Color(0.2f, 0.6f, 1f));
