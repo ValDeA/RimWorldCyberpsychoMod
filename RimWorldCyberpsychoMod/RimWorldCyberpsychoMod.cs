@@ -62,7 +62,8 @@ namespace RimWorldCyberPsychoMod
                 minValue = 0f,
                 maxValue = 200f,
                 showIfUndefined = false,
-                toStringStyle = ToStringStyle.Integer
+                toStringStyle = ToStringStyle.Integer,
+                workerClass = typeof(StatWorker_Humanity)
             };
 
             DefDatabase<StatDef>.Add(HumanityStatDefOf.Humanity);
