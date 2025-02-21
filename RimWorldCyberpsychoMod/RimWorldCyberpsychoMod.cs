@@ -3,6 +3,7 @@ using Verse;
 using RimWorld;
 using System.Linq;
 using System.Reflection;
+using System;
 
 namespace RimWorldCyberPsychoMod
 {
@@ -13,6 +14,7 @@ namespace RimWorldCyberPsychoMod
         {
             var harmony = new Harmony("RimWorld.CyberpsychoMod");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+            Log.Message("CyberPsychoMod initialized");
         }
     }
 
@@ -23,7 +25,9 @@ namespace RimWorldCyberPsychoMod
         {
             if (__result != null && !__result.GetComps<HumanityComponent>().Any())
             {
-                __result.AllComps.Add(new HumanityComponent());
+                var humanityComp = new HumanityComponent();
+                __result.AllComps.Add(humanityComp);
+                Log.Message($"Added HumanityComponent to {__result.LabelCap}");
             }
         }
     }

@@ -1,4 +1,5 @@
-﻿using Verse;
+﻿using UnityEngine;
+using Verse;
 
 public class HumanityComponent : ThingComp
 {
@@ -7,19 +8,19 @@ public class HumanityComponent : ThingComp
     public override void Initialize(CompProperties props)
     {
         base.Initialize(props);
-        humanity = Rand.Range(5f, 17f);
-
+        humanity = Rand.Range(0f, 100f);
         Log.Message($"Initialized HumanityComponent for {parent.LabelCap} with humanity {humanity}");
     }
 
     public override void PostExposeData()
     {
         base.PostExposeData();
-        Scribe_Values.Look(ref humanity, "humanity", 10f);
+        Scribe_Values.Look(ref humanity, "humanity", 50f);
     }
 
-    public override string CompInspectStringExtra()
+    public void AdjustHumanity(float amount)
     {
-        return "Humanity: " + humanity.ToString("F1");
+        humanity = Mathf.Clamp(humanity + amount, 0f, 200f);
+        Log.Message($"Adjusted humanity for {parent.LabelCap} to {humanity}");
     }
 }
