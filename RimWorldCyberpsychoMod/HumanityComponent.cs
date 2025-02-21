@@ -8,6 +8,8 @@ public class HumanityComponent : ThingComp
     {
         base.Initialize(props);
         humanity = Rand.Range(5f, 17f);
+
+        Log.Message($"Initialized HumanityComponent for {parent.LabelCap} with humanity {humanity}");
     }
 
     public override void PostExposeData()

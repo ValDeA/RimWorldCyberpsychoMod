@@ -69,10 +69,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="HumanityComponent.cs" />
-    <Compile Include="HumanityStatDefInitializer.cs" />
     <Compile Include="HumanityUI.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RimWorldCyberpsychoMod.cs" />
+    <Compile Include="StatWorker_Humunaty.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
