@@ -11,7 +11,7 @@ namespace RimWorldCyberPsychoMod
     {
         static CyberPsychoMod()
         {
-            var harmony = new Harmony("com.valdeA.rimworldcyberpsychomod");
+            var harmony = new Harmony("RimWorld.CyberpsychoMod");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
         }
     }
