@@ -21,9 +21,6 @@ namespace RimWorldCyberPsychoMod
             Harmony.DEBUG = true;
             Log.Message("RimWorldCyberPsychoMod: Starting initialization");
 
-            // HumanityStatDefInitializer의 정적 생성자 호출을 보장
-            // RuntimeHelpers.RunClassConstructor(typeof(HumanityStatDefInitializer).TypeHandle);
-
             // Harmony 패치 적용
             var harmony = new Harmony("Cyberpsycho");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
@@ -254,32 +251,4 @@ namespace RimWorldCyberPsychoMod
         */
 
     }
-
-
-    /*
-        [StaticConstructorOnStartup]
-        public static class HumanityStatDefInitializer
-        {
-            static HumanityStatDefInitializer()
-            {
-                Log.Message("HumanityStatDefInitializer: Initializing Humanity StatDef");
-
-                var humanityStat = new StatDef
-                {
-                    defName = "Humanity",
-                    label = "Humanity",
-                    description = "Measure of a pawn's humanity. Not visible in-game.",
-                    category = StatCategoryDefOf.BasicsPawn,
-                    defaultBaseValue = 50f,
-                    minValue = 0f,
-                    maxValue = 200f,
-                    showIfUndefined = false,
-                    toStringStyle = ToStringStyle.Integer,
-                    workerClass = typeof(StatWorker_Humanity)
-                };
-
-                DefDatabase<StatDef>.Add(humanityStat);
-                Log.Message("HumanityStatDefInitializer: Humanity StatDef added to DefDatabase");
-            }
-        }*/
 }

@@ -8,7 +8,7 @@ namespace RimWorldCyberpsychoMod.Harmony
     static class Patch_PawnGenerator
     {
         [HarmonyPostfix]
-        public static void Postfix(ref PawnGenerationRequest request, ref Pawn __result)
+        public static void Humanity_GenerateNewPawnInternal(ref PawnGenerationRequest request, ref Pawn __result)
         {
             if (__result != null)
             {
@@ -16,6 +16,8 @@ namespace RimWorldCyberpsychoMod.Harmony
                 if (humanityComp == null)
                 {
                     humanityComp = new CompCP();
+                    humanityComp.parent = __result;
+                    humanityComp.Initialize(new CompProperties());
                     __result.AllComps.Add(humanityComp);
                 }
                 Log.Message($"Generated new pawn {__result.LabelCap} with humanity {humanityComp.humanity}");
