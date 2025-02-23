@@ -9,7 +9,7 @@ namespace RimWorldCyberPsychoMod
         {
             if (req.HasThing && req.Thing is Pawn pawn)
             {
-                var comp = pawn.GetComp<HumanityComponent>();
+                var comp = pawn.GetComp<CompCP>();
                 if (comp != null)
                 {
                     return comp.humanity;

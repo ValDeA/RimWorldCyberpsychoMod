@@ -3,20 +3,21 @@ using Verse;
 
 namespace RimWorldCyberPsychoMod
 {
-    public class HumanityComponent : ThingComp
+    public class CompCP : ThingComp
     {
         public float humanity;
+
 
         public override void Initialize(CompProperties props)
         {
             base.Initialize(props);
-            humanity = Rand.Range(0f, 100f);
+            humanity = Rand.Range(50f, 100f);
         }
 
         public override void PostExposeData()
         {
             base.PostExposeData();
-            Scribe_Values.Look(ref humanity, "humanity", 50f);
+            Scribe_Values.Look(ref humanity, "CP_Humanity", 50f);
         }
 
         public void AdjustHumanity(float amount)
