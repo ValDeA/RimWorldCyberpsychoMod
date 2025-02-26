@@ -62,7 +62,7 @@ namespace RimWorldCyberPsychoMod
             // 팩션을 찾은 후 콜
             if (Find.FactionManager != null && Find.FactionManager.OfPlayer != null)
             {
-                if (parent is Pawn pawn)
+                if (parent is Pawn pawn && IsValidPawn(out pawn))
                 {
                     if (humanity < CPMod.settings.cyberPsychoThreshold1 && CanEnterCyberPsycho(pawn))
                     {
@@ -104,12 +104,20 @@ namespace RimWorldCyberPsychoMod
             }
         }
         private bool CanEnterCyberPsycho(Pawn pawn) =>
-            !pawn.InMentalState && !pawn.Downed && (ticksSinceLastCyberPsycho == -1 || ticksSinceLastCyberPsycho > cooldown_ticks);
+            !pawn.InMentalState && !pawn.Downed && !pawn.Dead && (ticksSinceLastCyberPsycho == -1 || ticksSinceLastCyberPsycho > cooldown_ticks);
 
         private bool IsValidPawn(out Pawn pawn)
         {
             pawn = parent as Pawn;
-            return pawn != null && pawn.RaceProps.Humanlike;
+
+            if(CPMod.settings.isValidColonist)
+            {
+                return pawn != null && pawn.RaceProps.Humanlike && !pawn.Dead && pawn.Faction != null && pawn.Faction.IsPlayer;
+            }
+            else
+            {
+                return pawn != null && pawn.RaceProps.Humanlike && !pawn.Dead;
+            }
         }
 
         int ClampValue(int value, int min, int max)

@@ -33,6 +33,8 @@ namespace RimWorldCyberPsychoMod
             listingStandard.Label("CyberPsychoThreshold2".Translate() + settings.cyberPsychoThreshold2);
             settings.cyberPsychoThreshold2 = (int)listingStandard.Slider(settings.cyberPsychoThreshold2, -100, settings.cyberPsychoThreshold1);
 
+            listingStandard.CheckboxLabeled("IsValidColonist".Translate(), ref settings.isValidColonist, "IsValidColonistToolTip".Translate());
+
             listingStandard.End();
             base.DoSettingsWindowContents(inRect);
         }

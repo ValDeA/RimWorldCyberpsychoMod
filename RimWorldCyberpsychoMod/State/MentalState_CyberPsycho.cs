@@ -9,7 +9,7 @@ namespace RimWorldCyberpsychoMod.State
     public class MentalState_CyberPsycho : MentalState
     {
         public const string MENTALSTATE_CYBERPSYCHO = "MentalStateCyberPsycho";
-        public const string THOUGHT_CYBERPSYCHO = "CyberPsychoThought";
+        public const string HEDIFF_CYBERPSYCHOBOOST = "CyberPsychoBoost";
         public const string THOUGHT_HUMANITY_LEVEL = "HumanityLevelThought";
 
         private const float ATTACK_CHANCE = 0.1f;
@@ -116,13 +116,13 @@ namespace RimWorldCyberpsychoMod.State
 
         private void ApplyCyberPsychoHediff()
         {
-            Hediff hediff = HediffMaker.MakeHediff(DefDatabase<HediffDef>.GetNamed("CyberPsychoBoost"), pawn);
+            Hediff hediff = HediffMaker.MakeHediff(DefDatabase<HediffDef>.GetNamed(HEDIFF_CYBERPSYCHOBOOST), pawn);
             pawn.health.AddHediff(hediff);
         }
 
         private void RemoveCyberPsychoHediff()
         {
-            Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(DefDatabase<HediffDef>.GetNamed("CyberPsychoBoost"));
+            Hediff hediff = pawn.health.hediffSet.GetFirstHediffOfDef(DefDatabase<HediffDef>.GetNamed(HEDIFF_CYBERPSYCHOBOOST));
             if (hediff != null)
             {
                 pawn.health.RemoveHediff(hediff);
