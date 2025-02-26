@@ -1,10 +1,5 @@
 ﻿using HarmonyLib;
 using RimWorldCyberPsychoMod;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 
 namespace RimWorldCyberpsychoMod.Harmony
@@ -14,10 +9,13 @@ namespace RimWorldCyberpsychoMod.Harmony
     {
         static void Humanity_PostApplyDamage(Pawn __instance)
         {
-            CompCP humanityComp = __instance.GetComp<CompCP>();
-            if (humanityComp != null)
+            if (__instance.RaceProps.Humanlike)
             {
-                humanityComp.AdjustHumanityForImplants(__instance);
+                CompCP humanityComp = __instance.GetComp<CompCP>();
+                if (humanityComp != null)
+                {
+                    humanityComp.AdjustHumanityForImplants(__instance);
+                }
             }
         }
     }

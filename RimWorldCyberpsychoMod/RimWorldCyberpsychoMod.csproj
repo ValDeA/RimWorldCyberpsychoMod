@@ -73,15 +73,18 @@
     <Compile Include="Harmony\Patch_PawnGenerator.cs" />
     <Compile Include="Harmony\Patch_Pawn_TickRare.cs" />
     <Compile Include="Harmony\Patch_PostApplyDamage.cs" />
-    <Compile Include="ModBase.cs" />
+    <Compile Include="Common\ModBase.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Settings\CPMod.cs" />
+    <Compile Include="Settings\CPModSettings.cs" />
     <Compile Include="State\MentalState_CyberPsycho.cs" />
     <Compile Include="Woker\MentalStateWorker_CyberPsycho.cs" />
     <Compile Include="Woker\StatWorker_Humanity.cs" />
-    <Compile Include="Woker\ThoughtWorker_CyberPsycho.cs" />
+    <Compile Include="Woker\ThoughtWorker_HumanityLevel.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

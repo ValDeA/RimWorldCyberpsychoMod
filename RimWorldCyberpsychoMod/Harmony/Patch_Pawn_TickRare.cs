@@ -1,10 +1,5 @@
 ﻿using HarmonyLib;
 using RimWorldCyberPsychoMod;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse;
 
 namespace RimWorldCyberpsychoMod.Harmony
@@ -15,8 +10,9 @@ namespace RimWorldCyberpsychoMod.Harmony
         [HarmonyPostfix]
         public static void CheckCyberPsycho(Pawn __instance)
         {
+
             CompCP comp = __instance.GetComp<CompCP>();
-            if (comp != null)
+            if (comp != null && __instance.RaceProps.Humanlike)
             {
                 comp.CheckForCyberPsycho();
             }

@@ -1,16 +1,17 @@
 ﻿using RimWorld;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Verse.AI;
 using Verse;
+using RimWorldCyberPsychoMod;
 
 namespace RimWorldCyberpsychoMod.State
 {
     public class MentalState_CyberPsycho : MentalState
     {
+        public const string MENTALSTATE_CYBERPSYCHO = "MentalStateCyberPsycho";
+        public const string THOUGHT_CYBERPSYCHO = "CyberPsychoThought";
+        public const string THOUGHT_HUMANITY_LEVEL = "HumanityLevelThought";
+
         private const float ATTACK_CHANCE = 0.1f;
         private const float SEARCH_RADIUS = 10f;
 
@@ -22,20 +23,69 @@ namespace RimWorldCyberpsychoMod.State
         {
             base.PostStart(reason);
             ApplyCyberPsychoHediff();
+
+            // 사이버 사이코 상태 진입 시 관련 무드 제거
+            if(ModBase.HasSpecificMood(pawn, THOUGHT_HUMANITY_LEVEL))
+            {
+                pawn.needs.mood.thoughts.memories.RemoveMemoriesOfDef(ThoughtDef.Named(THOUGHT_HUMANITY_LEVEL));
+            }
         }
         public override void PostEnd()
         {
             base.PostEnd();
-            RemoveCyberPsychoHediff();
+
+            CompCP comp = pawn.GetComp<CompCP>();
+            if (comp == null) return;
+
+            if (comp.humanity >= CPMod.settings.cyberPsychoThreshold2)
+            {
+                comp.ResetCyberPsychoCooldown();
+                RemoveCyberPsychoHediff();
+
+                // 사이버 사이코 관련 무드 갱신
+                UpdatePsychoMood();
+            }
+            else
+            {
+                // 인간성이 cyberPsychoThreshold2 미만일 때 상태 종료를 막음
+                pawn.mindState.mentalStateHandler.TryStartMentalState(def, null, true);
+            }
         }
         public override void MentalStateTick()
         {
             base.MentalStateTick();
 
-            if (pawn != null && pawn.Map != null && Rand.Chance(ATTACK_CHANCE))
+            CompCP comp = pawn.GetComp<CompCP>();
+            if (comp != null)
             {
-                TryAttackNearbyPawn();
+                if (comp.humanity <= CPMod.settings.cyberPsychoThreshold2)
+                {
+                    // 인간성이 cyberPsychoThreshold2 미만일 때 회복 불가능하게 설정
+                    def.recoveryMtbDays = float.PositiveInfinity;
+                }
             }
+
+            if (pawn != null && pawn.Map != null)
+            {
+                // 림이 쓰러지거나 행동 불가 상태인지 확인
+                if (pawn.Downed || pawn.health.Dead)
+                {
+                    RecoverFromState(); // 정신 상태 강제 해제
+                }
+                else
+                {
+                    if (Rand.Chance(ATTACK_CHANCE))
+                    {
+                        TryAttackNearbyPawn();
+                    }
+                }
+            } 
+        }
+
+        private void UpdatePsychoMood()
+        {
+            // 상황적 사고 업데이트
+            pawn.needs.mood?.thoughts?.situational?.Notify_SituationalThoughtsDirty();
         }
         private void TryAttackNearbyPawn()
         {
